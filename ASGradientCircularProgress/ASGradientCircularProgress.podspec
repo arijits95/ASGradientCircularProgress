@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target = "11.0"
   spec.swift_version = "4.2"
 
-  spec.source        = { :git => "https://github.com/arijits95/ASGradientCircularProgress.git", :tag => "#{spec.version}" }
+  spec.source        = { :git => "https://github.com/arijits95/ASGradientCircularProgress.git", :commit => "93af2807e7694cff1d095b46fca2afe8c4694517" }
   spec.source_files  = "ASGradientCircularProgress/Source/*.{swift}"
 
 end
