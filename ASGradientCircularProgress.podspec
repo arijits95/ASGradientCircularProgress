@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "ASGradientCircularProgress"
-  spec.version      = "0.0.2"
+  spec.version      = "0.0.3"
   spec.summary      = "This is a simple circular progress view, where the progress is shown using a gradient rather than a single colour."
 
   spec.description  = <<-DESC

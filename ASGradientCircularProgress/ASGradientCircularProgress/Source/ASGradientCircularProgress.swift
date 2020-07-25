@@ -10,21 +10,93 @@ import UIKit
 
 public class ASGradientCircularProgress: UIView {
     
-    public var trackColor: UIColor = UIColor.black.withAlphaComponent(0.1)
-    public var trackWidth: CGFloat = 5
-    public var progressLineWidth: CGFloat = 20
-    public var lineCap: CAShapeLayerLineCap = .round
-    public var startAngle: CGFloat = CGFloat.pi / 2
-    public var endAngle: CGFloat = (CGFloat.pi * 2) + (CGFloat.pi / 2)
-   
-    public var gradientColors: [Any] = [UIColor.red.cgColor, UIColor.yellow.cgColor]
-    public var gradientStartPoint: CGPoint = CGPoint(x: 0.0, y: 0.0)
-    public var gradientEndPoint: CGPoint = CGPoint(x: 1.0, y: 1.0)
-    public var gradientLocations: [NSNumber] = [0.3, 0.6]
-    public var gradientType: CAGradientLayerType = .axial
-    
-    public var progressTextFont: UIFont = UIFont.systemFont(ofSize: 30)
-    public var progressTextColor: UIColor = .black
+    public var trackColor: UIColor = UIColor.black.withAlphaComponent(0.1) {
+        didSet {
+            trackLayer.strokeColor = trackColor.cgColor
+        }
+    }
+    public var trackWidth: CGFloat = 20 {
+        didSet {
+            trackLayer.lineWidth = trackWidth
+        }
+    }
+    public var progressLineWidth: CGFloat = 20 {
+        didSet {
+            radius = (bounds.size.width - progressLineWidth) / 2
+            circularPath = UIBezierPath(arcCenter: CGPoint(x: bounds.width / 2, y: bounds.height / 2),
+                                        radius: radius,
+                                        startAngle: startAngle,
+                                        endAngle: endAngle,
+                                        clockwise: true)
+            gradientProgressLayer.path = circularPath.cgPath
+            gradientProgressLayer.lineWidth = progressLineWidth
+        }
+    }
+    public var lineCap: CAShapeLayerLineCap = .round {
+        didSet {
+            gradientProgressLayer.lineCap = lineCap
+        }
+    }
+    public var startAngle: CGFloat = CGFloat.pi / 2 {
+        didSet {
+            radius = (bounds.size.width - progressLineWidth) / 2
+            circularPath = UIBezierPath(arcCenter: CGPoint(x: bounds.width / 2, y: bounds.height / 2),
+                                        radius: radius,
+                                        startAngle: startAngle,
+                                        endAngle: endAngle,
+                                        clockwise: true)
+            gradientProgressLayer.path = circularPath.cgPath
+            trackLayer.path = circularPath.cgPath
+        }
+    }
+    public var endAngle: CGFloat = (CGFloat.pi * 2) + (CGFloat.pi / 2) {
+        didSet {
+            radius = (bounds.size.width - progressLineWidth) / 2
+            circularPath = UIBezierPath(arcCenter: CGPoint(x: bounds.width / 2, y: bounds.height / 2),
+                                        radius: radius,
+                                        startAngle: startAngle,
+                                        endAngle: endAngle,
+                                        clockwise: true)
+            gradientProgressLayer.path = circularPath.cgPath
+            trackLayer.path = circularPath.cgPath
+        }
+    }
+    public var gradientColors: [Any] = [UIColor.red.cgColor, UIColor.yellow.cgColor] {
+        didSet {
+            gradientLayer.colors = gradientColors
+        }
+    }
+    public var gradientStartPoint: CGPoint = CGPoint(x: 0.0, y: 0.0) {
+        didSet {
+            gradientLayer.startPoint = gradientStartPoint
+        }
+    }
+    public var gradientEndPoint: CGPoint = CGPoint(x: 1.0, y: 1.0) {
+        didSet {
+            gradientLayer.endPoint = gradientEndPoint
+        }
+    }
+    public var gradientLocations: [NSNumber] = [0.3, 0.6] {
+        didSet {
+            gradientLayer.locations = gradientLocations
+        }
+    }
+    public var gradientType: CAGradientLayerType = .axial {
+        didSet {
+            gradientLayer.type = gradientType
+        }
+    }
+    public var progressTextFont: UIFont = UIFont.systemFont(ofSize: 30) {
+        didSet {
+            progressTextLayer.font = progressTextFont
+            addTextLayer()
+        }
+    }
+    public var progressTextColor: UIColor = .black {
+        didSet {
+            progressTextLayer.foregroundColor = progressTextColor.cgColor
+        }
+    }
     
     private var radius: CGFloat = 0
     private var circularPath: UIBezierPath!
